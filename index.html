@@ -1,155 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qibla Finder</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login Form</title>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-blue-100 flex items-center justify-center min-h-screen">
 
-  <!-- Top Navigation Bar -->
-  <nav class="bg-emerald-800 text-white shadow-md">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        
-        <!-- Brand Logo -->
-        <a href="#" class="flex items-center space-x-2 font-bold text-xl tracking-tight">
-          <span class="bg-emerald-600 p-1.5 rounded-lg">🧭</span>
-          <span>QiblaFinder</span>
-        </a>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-80">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-600">
+            Login
+        </h1>
 
-        <!-- Desktop Navigation Links -->
-        <div class="hidden md:flex space-x-8 items-center">
-          <a href="#finder" class="hover:text-emerald-200 transition font-medium">Qibla Compass</a>
-          <a href="#prayer-times" class="hover:text-emerald-200 transition font-medium">Prayer Times</a>
-          <a href="#how-it-works" class="hover:text-emerald-200 transition font-medium">How It Works</a>
-          <button onclick="getGPSLocation()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg text-sm font-semibold transition">
-            Use My GPS
-          </button>
-        </div>
+        <input
+            type="email"
+            placeholder="Enter Email"
+            class="w-full border p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
 
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden flex items-center">
-          <button id="mobile-menu-btn" class="text-white hover:text-emerald-200 focus:outline-none">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
+        <input
+            type="password"
+            placeholder="Enter Password"
+            class="w-full border p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
 
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-emerald-900 px-4 pt-2 pb-4 space-y-2">
-      <a href="#finder" class="block py-2 hover:text-emerald-200 font-medium">Qibla Compass</a>
-      <a href="#prayer-times" class="block py-2 hover:text-emerald-200 font-medium">Prayer Times</a>
-      <a href="#how-it-works" class="block py-2 hover:text-emerald-200 font-medium">How It Works</a>
-      <button onclick="getGPSLocation()" class="w-full text-left bg-emerald-600 hover:bg-emerald-500 px-3 py-2 rounded-lg text-sm font-semibold mt-2">
-        Use My GPS
-      </button>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main id="finder" class="flex-grow flex items-center justify-center p-6">
-    <div class="bg-white rounded-2xl shadow-lg max-w-md w-full p-8 border border-slate-100">
-      <h1 class="text-2xl font-bold text-center text-slate-900 mb-2">Find Qibla Direction</h1>
-      <p class="text-sm text-slate-500 text-center mb-6">Enter coordinates or use GPS to calculate the exact angle to Mecca.</p>
-
-      <!-- Coordinate Inputs -->
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Latitude</label>
-          <input id="lat" type="number" step="any" value="31.5204" placeholder="e.g. 31.5204"
-            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-600 focus:outline-none" />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Longitude</label>
-          <input id="lon" type="number" step="any" value="74.3587" placeholder="e.g. 74.3587"
-            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-600 focus:outline-none" />
-        </div>
-
-        <button onclick="calculateQibla()"
-          class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2.5 rounded-lg transition shadow-sm">
-          Calculate Direction
+        <button
+            class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-700">
+            Sign In
         </button>
-      </div>
 
-      <!-- Result & Compass Display -->
-      <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-        <div class="relative w-36 h-36 mx-auto mb-4 rounded-full border-4 border-emerald-700 flex items-center justify-center bg-slate-50">
-          <span class="absolute top-1 text-xs font-bold text-slate-400">N</span>
-          <span class="absolute bottom-1 text-xs font-bold text-slate-400">S</span>
-          <span class="absolute left-2 text-xs font-bold text-slate-400">W</span>
-          <span class="absolute right-2 text-xs font-bold text-slate-400">E</span>
-          
-          <!-- Rotating Needle -->
-          <div id="compass-needle" class="w-1.5 h-24 transition-transform duration-500 ease-out" style="transform: rotate(260.28deg);">
-            <div class="w-full h-1/2 bg-emerald-600 rounded-t-full"></div>
-            <div class="w-full h-1/2 bg-slate-300 rounded-b-full"></div>
-          </div>
-        </div>
-
-        <p class="text-sm text-slate-500">Qibla Angle from True North</p>
-        <p id="result-text" class="text-3xl font-extrabold text-emerald-800 mt-1">260.28°</p>
-      </div>
+        <p class="text-center mt-4 text-gray-600">
+            Don't have an account?
+            <a href="#" class="text-blue-500 font-semibold">Register</a>
+        </p>
     </div>
-  </main>
 
-  <!-- JavaScript for Navigation Toggle & Calculation -->
-  <script>
-    // Toggle Mobile Navigation
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Qibla Spherical Trigonometry Formula
-    function calculateQibla() {
-      const lat = parseFloat(document.getElementById('lat').value);
-      const lon = parseFloat(document.getElementById('lon').value);
-
-      if (isNaN(lat) || isNaN(lon)) {
-        alert("Please enter valid latitude and longitude values.");
-        return;
-      }
-
-      const toRad = (deg) => deg * (Math.PI / 180);
-      const toDeg = (rad) => rad * (180 / Math.PI);
-
-      const kaabaLat = toRad(21.422487);
-      const kaabaLon = toRad(39.826206);
-      const userLat = toRad(lat);
-      const userLon = toRad(lon);
-
-      const deltaLon = kaabaLon - userLon;
-      const y = Math.sin(deltaLon);
-      const x = Math.cos(userLat) * Math.tan(kaabaLat) - Math.sin(userLat) * Math.cos(deltaLon);
-
-      const bearing = (toDeg(Math.atan2(y, x)) + 360) % 360;
-      
-      document.getElementById('result-text').innerText = `${bearing.toFixed(2)}°`;
-      document.getElementById('compass-needle').style.transform = `rotate(${bearing}deg)`;
-    }
-
-    // Browser Geolocation Helper
-    function getGPSLocation() {
-      if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser.");
-        return;
-      }
-      navigator.geolocation.getCurrentPosition((position) => {
-        document.getElementById('lat').value = position.coords.latitude.toFixed(6);
-        document.getElementById('lon').value = position.coords.longitude.toFixed(6);
-        calculateQibla();
-      }, () => {
-        alert("Unable to retrieve your location. Please check browser permissions.");
-      });
-    }
-  </script>
 </body>
 </html>
